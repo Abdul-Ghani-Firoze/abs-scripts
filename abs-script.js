@@ -39,7 +39,7 @@ $(function () {
         console.log("viewed at: " + viewingDateTime);
 
         // send data to server
-        sp.track('Entered product page', {member: loggedIn, sessionId: getSessionIdFromCookie(), productUrl: pageUrl, enteredAt: viewingDateTime});
+        sp.track('Entered product page', {productId: $('input:hidden[name=id]').val(), member: loggedIn, sessionId: getSessionIdFromCookie(), productUrl: pageUrl, enteredAt: viewingDateTime});
     }
 
     // track leaving product page
@@ -47,7 +47,7 @@ $(function () {
         if (productPage) {
             var leavingDateTime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
             console.log("left at: " + leavingDateTime);
-            sp.track('Leaving product page', {sessionId: getSessionIdFromCookie(), productUrl: pageUrl, leftAt: leavingDateTime});
+            sp.track('Leaving product page', {productId: $('input:hidden[name=id]').val(), sessionId: getSessionIdFromCookie(), productUrl: pageUrl, leftAt: leavingDateTime});
         }
     });
 
