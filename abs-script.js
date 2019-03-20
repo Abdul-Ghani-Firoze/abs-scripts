@@ -8,20 +8,9 @@
 $(function () {
 
     var loggedIn = false;
-    var pageUrl = window.location.pathname;
+    var pageUrl = location.pathname + location.search;
     var productPage = pageUrl.indexOf("product") > -1;
     var categoryPage = pageUrl.indexOf("category") > -1;
-//    function generateUserId() {
-//        console.log("creating userId");
-//        function User() {}
-//        ;
-//        User.prototype.userId = Math.floor(Math.random() * 26) + Date.now();
-//        User.prototype.getId = function () {
-//            return this.userId;
-//        };
-//    }
-
-//    generateUserId();
 
     // track whether user is member
     if ($(".nav li:nth-child(2)").hasClass("user-menu")) {
@@ -35,15 +24,16 @@ $(function () {
     // track category visit
     if (categoryPage) {
         console.log("it is a CATEGORY page");
-        console.log("cookie ID: " + getSessionIdCookie());
+        console.log("session ID: " + getSessionIdFromCookie());
         console.log("pageUrl: " + pageUrl);
         // send data to server
-        sp.track('Entered category page', {member: loggedIn, sessionId: getSessionIdCookie(), categoryUrl: pageUrl});
+        sp.track('Entered category page', {member: loggedIn, sessionId: getSessionIdFromCookie(), categoryUrl: pageUrl});
     }
 
     // track viewing product page
     if (productPage) {
         console.log("it IS a product page");
+        console.log("pageUrl: " + pageUrl);
         var viewingDateTime = dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
 //        var formattedDate = dateFormat(viewingDateTime, "yyyy-mm-dd HH:MM:ss");
         console.log("viewed at: " + viewingDateTime);
@@ -61,7 +51,7 @@ $(function () {
         }
     });
 
-    function getSessionIdCookie() {
+    function getSessionIdFromCookie() {
         var name = "PHPSESSID=";
         var decodedCookie = decodeURIComponent(document.cookie);
         var ca = decodedCookie.split(';');
